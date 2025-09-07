@@ -1,11 +1,10 @@
 // controllers/vehicleController.js
 const asyncHandler = require("express-async-handler");
-const dynamodb = require("../config/dynamoClient");
+const dynamodb = require("../config/dynamoDbConnection");
 const TABLE_NAME = "Vehicles";
 
 const { createVehicle } = require("../models/vehicleModel");
 
-// Add Vehicle
 const addVehicleController = asyncHandler(async (req, res) => {
   const vehicleItem = createVehicle(req.body);
 

@@ -1,14 +1,14 @@
 // routes/vehicleRoutes.js
 const express = require("express");
 const router = express.Router();
-const { validateToken } = require("../middleware/validateTokenHandler");
+const { validateToken } = require("../middleware/validtaeTokenHandler");
 const {
   addVehicleController,
   getUserVehiclesController,
   getVehicleController,
   updateVehicleController,
   deleteVehicleController,
-} = require("../controllers/vehicleController");
+} = require("../controllers/vechileController");
 
 router.use(validateToken);
 
