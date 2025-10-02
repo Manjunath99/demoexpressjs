@@ -19,6 +19,11 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
     "nodemon": "^3.1.10",
+    "serverless": "^4.19.1",
+    "serverless-http": "^4.0.0",
     "uuid": "^12.0.0"
+  },
+  "devDependencies": {
+    "serverless-esbuild": "^1.55.1"
   }
 }

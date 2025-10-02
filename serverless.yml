@@ -1,0 +1,38 @@
+service: demoexpressjs-lambda
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  memorySize: 256
+  timeout: 10
+
+functions:
+  contacts:
+    handler: handlers/contactHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/contactHandler.js
+        - controllers/contactController.js
+        - models/contactModel.js
+      exclude:
+        - controllers/**
+        - models/**
+    events:
+      - http:
+          path: api/contacts/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: api/contacts
+          method: ANY
+          cors: true
+
+package:
+  individually: true
+  exclude:
+    - tests/**
+    - docs/**
+    - .git/**
+    - "*.md"
