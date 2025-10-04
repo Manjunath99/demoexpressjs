@@ -11,21 +11,21 @@
 // const params = {
 //   TableName: "Users",
 //   AttributeDefinitions: [
-//     { AttributeName: "userId", AttributeType: "S" }, // PK
-//     { AttributeName: "email", AttributeType: "S" }, // For GSI
+//     { AttributeName: "userId", AttributeType: "S" },
+//     { AttributeName: "phoneNumber", AttributeType: "S" },
 //   ],
-//   KeySchema: [
-//     { AttributeName: "userId", KeyType: "HASH" }, // Primary key
-//   ],
+//   KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
 //   ProvisionedThroughput: {
 //     ReadCapacityUnits: 5,
 //     WriteCapacityUnits: 5,
 //   },
 //   GlobalSecondaryIndexes: [
 //     {
-//       IndexName: "EmailIndex",
-//       KeySchema: [{ AttributeName: "email", KeyType: "HASH" }],
-//       Projection: { ProjectionType: "ALL" },
+//       IndexName: "PhoneNumberIndex",
+//       KeySchema: [{ AttributeName: "phoneNumber", KeyType: "HASH" }],
+//       Projection: {
+//         ProjectionType: "ALL",
+//       },
 //       ProvisionedThroughput: {
 //         ReadCapacityUnits: 5,
 //         WriteCapacityUnits: 5,

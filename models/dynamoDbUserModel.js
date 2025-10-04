@@ -3,9 +3,9 @@ const { v4: uuidv4 } = require("uuid");
 function createUser(data) {
   return {
     userId: uuidv4(),
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
+    firstName: data.firstName || "",
+    lastName: data.lastName || "",
+    email: data.email || "",
     phoneNumber: data.phoneNumber,
     profilePictureUrl: data.profilePictureUrl || null,
     gender: data.gender || null,
