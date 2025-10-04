@@ -1,14 +1,15 @@
 const { v4: uuidv4 } = require("uuid");
 
 // Factory to create a new UserReview object
-function createUserReview({ userId, reviewText, reviewerId, ratingGiven }) {
+
+function createUserReview(data) {
   return {
-    userId,
-    reviewId: uuidv4(), // unique reviewId instead of relying only on reviewDate
-    reviewText,
-    reviewerId,
-    reviewDate: new Date().toISOString(), // consistent ISO timestamp
-    ratingGiven,
+    reviewId: uuidv4(),
+    userId: data.userId,
+    reviewerId: data.reviewerId,
+    ratingGiven: data.ratingGiven,
+    reviewText: data.reviewText || "", // default to empty string
+    reviewDate: new Date().toISOString(),
   };
 }
 

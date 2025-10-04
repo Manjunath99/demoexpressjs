@@ -7,9 +7,24 @@ const REVIEW_TABLE = "UserReview";
 
 /* -------------------- Add Review + Incremental Rating -------------------- */
 const addUserReview = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
+  const { ratingGiven, reviewerId, userId } = req.body;
+
+  if (
+    !ratingGiven ||
+    ratingGiven < 0 ||
+    ratingGiven > 5 ||
+    !reviewerId ||
+    !userId
+  ) {
+    res.status(400);
+    throw new Error("Invalid rating");
+  }
   const reviewItem = createUserReview(req.body);
 
-  // Save review
   await dynamodb
     .put({
       TableName: REVIEW_TABLE,
@@ -17,7 +32,6 @@ const addUserReview = asyncHandler(async (req, res) => {
     })
     .promise();
 
-  // Get current rating
   const ratingResult = await dynamodb
     .get({
       TableName: RATING_TABLE,
@@ -55,6 +69,10 @@ const addUserReview = asyncHandler(async (req, res) => {
 
 /* -------------------- Get Reviews + Rating -------------------- */
 const getUserReviews = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId } = req.params;
 
   // Fetch reviews
@@ -82,6 +100,10 @@ const getUserReviews = asyncHandler(async (req, res) => {
 
 /* -------------------- Update Review + Adjust Rating -------------------- */
 const updateUserReview = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId, reviewDate } = req.params;
   const { reviewText, ratingGiven, oldRating } = req.body;
 
@@ -131,6 +153,10 @@ const updateUserReview = asyncHandler(async (req, res) => {
 
 /* -------------------- Delete Review + Decremental Rating -------------------- */
 const deleteUserReview = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId, reviewDate } = req.params;
   const { ratingGiven } = req.body; // must pass rating being deleted
 
@@ -181,6 +207,10 @@ const deleteUserReview = asyncHandler(async (req, res) => {
 
 /* -------------------- Get Rating Only -------------------- */
 const getUserRating = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId } = req.params;
 
   const ratingResult = await dynamodb
