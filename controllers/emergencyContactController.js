@@ -7,8 +7,17 @@ const CONTACT_TABLE = "EmergencyContact";
 
 /* -------------------- Add Emergency Contact -------------------- */
 const addEmergencyContact = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId } = req.params;
   const { name, phoneNumber, relationship } = req.body;
+
+  if (!name || !phoneNumber || !relationship) {
+    res.status(400);
+    throw new Error("Please add all fields");
+  }
 
   const contactItem = createEmergencyContact({
     userId,
@@ -26,27 +35,43 @@ const addEmergencyContact = asyncHandler(async (req, res) => {
 
 /* -------------------- Get All Emergency Contacts -------------------- */
 const getEmergencyContacts = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId } = req.params;
 
   const result = await dynamodb
     .query({
       TableName: CONTACT_TABLE,
+      IndexName: "UserIdIndex",
       KeyConditionExpression: "userId = :uid",
       ExpressionAttributeValues: { ":uid": userId },
     })
     .promise();
+
+  console.log("User's contacts:", result.Items);
 
   res.status(200).json(result.Items || []);
 });
 
 /* -------------------- Update Emergency Contact -------------------- */
 const updateEmergencyContact = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId, contactId } = req.params;
   const { name, phoneNumber, relationship } = req.body;
 
+  if (!name || !phoneNumber || !relationship) {
+    res.status(400);
+    throw new Error("Please add all fields");
+  }
+
   const updateParams = {
     TableName: CONTACT_TABLE,
-    Key: { userId, contactId },
+    Key: { contactId },
     UpdateExpression: "set #n = :n, phoneNumber = :p, relationship = :r",
     ExpressionAttributeNames: { "#n": "name" },
     ExpressionAttributeValues: {
@@ -66,12 +91,17 @@ const updateEmergencyContact = asyncHandler(async (req, res) => {
 
 /* -------------------- Delete Emergency Contact -------------------- */
 const deleteEmergencyContact = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId, contactId } = req.params;
+  console.log("userIduserIduserIduserId", userId, contactId);
 
   await dynamodb
     .delete({
       TableName: CONTACT_TABLE,
-      Key: { userId, contactId },
+      Key: { contactId },
     })
     .promise();
 

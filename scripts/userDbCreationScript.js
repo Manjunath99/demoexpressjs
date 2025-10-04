@@ -8,21 +8,51 @@
 // });
 
 // const dynamodb = new AWS.DynamoDB();
+
+// //for user db creation
+// // const params = {
+// //   TableName: "Users",
+// //   AttributeDefinitions: [
+// //     { AttributeName: "userId", AttributeType: "S" },
+// //     { AttributeName: "phoneNumber", AttributeType: "S" },
+// //   ],
+// //   KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
+// //   ProvisionedThroughput: {
+// //     ReadCapacityUnits: 5,
+// //     WriteCapacityUnits: 5,
+// //   },
+// //   GlobalSecondaryIndexes: [
+// //     {
+// //       IndexName: "PhoneNumberIndex",
+// //       KeySchema: [{ AttributeName: "phoneNumber", KeyType: "HASH" }],
+// //       Projection: {
+// //         ProjectionType: "ALL",
+// //       },
+// //       ProvisionedThroughput: {
+// //         ReadCapacityUnits: 5,
+// //         WriteCapacityUnits: 5,
+// //       },
+// //     },
+// //   ],
+// // };
+
+// //for emeregency contact db creation
+
 // const params = {
-//   TableName: "Users",
+//   TableName: "EmergencyContact",
 //   AttributeDefinitions: [
-//     { AttributeName: "userId", AttributeType: "S" },
-//     { AttributeName: "phoneNumber", AttributeType: "S" },
+//     { AttributeName: "contactId", AttributeType: "S" },
+//     { AttributeName: "userId", AttributeType: "S" }, // for GSI
 //   ],
-//   KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
+//   KeySchema: [{ AttributeName: "contactId", KeyType: "HASH" }],
 //   ProvisionedThroughput: {
 //     ReadCapacityUnits: 5,
 //     WriteCapacityUnits: 5,
 //   },
 //   GlobalSecondaryIndexes: [
 //     {
-//       IndexName: "PhoneNumberIndex",
-//       KeySchema: [{ AttributeName: "phoneNumber", KeyType: "HASH" }],
+//       IndexName: "UserIdIndex",
+//       KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
 //       Projection: {
 //         ProjectionType: "ALL",
 //       },

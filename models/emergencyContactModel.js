@@ -2,8 +2,8 @@ const { v4: uuidv4 } = require("uuid");
 
 function createEmergencyContact({ userId, name, phoneNumber, relationship }) {
   return {
-    userId, // Partition Key
-    contactId: uuidv4(), // Sort Key (unique per contact)
+    userId,
+    contactId: uuidv4(),
     name,
     phoneNumber,
     relationship,
