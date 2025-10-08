@@ -2,17 +2,17 @@ const { v4: uuidv4 } = require("uuid");
 
 function createVehicle(data) {
   return {
-    vehicleId: uuidv4(), // Unique vehicle ID
-    userId: data.userId, // Owner ID
-    make: data.make || "",
+    vehicleId: uuidv4(),
+    userId: data.userId,
     model: data.model,
-    color: data.color,
-    numberPlate: data.numberPlate || data.licensePlate,
-    type: data.vehicleType, // car, bike, etc.
-    seatsAvailable: data.seatsAvailable || 4,
-    yearOfRegistration: data.yearOfRegistration || data.year,
+    numberPlate: data.numberPlate,
+    type: data.vehicleType,
+    ownerName: data.ownerName,
+    yearOfRegistration: data.yearOfRegistration,
+    vehicleImageUrl: data.vehicleImageUrl,
+    make: data.make || "",
+    seatsAvailable: data.seatsAvailable || 1,
     isInsured: data.isInsured || false,
-    vehicleImageUrl: data.vehicleImageUrl || null,
     rcBookUrl: data.rcBookUrl || null,
     insuranceUrl: data.insuranceUrl || null,
     createdAt: new Date().toISOString(),
