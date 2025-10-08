@@ -146,3 +146,37 @@
 //   if (err) console.error("Error creating Ride table:", err);
 //   else console.log("Ride table created:", data);
 // });
+
+// const params = {
+//   TableName: "Licenses",
+//   AttributeDefinitions: [
+//     { AttributeName: "licenseId", AttributeType: "S" }, // Primary key
+//     { AttributeName: "userId", AttributeType: "S" }, // GSI to query licenses by user
+//   ],
+//   KeySchema: [
+//     { AttributeName: "licenseId", KeyType: "HASH" }, // Primary key
+//   ],
+//   ProvisionedThroughput: {
+//     ReadCapacityUnits: 5,
+//     WriteCapacityUnits: 5,
+//   },
+//   GlobalSecondaryIndexes: [
+//     {
+//       IndexName: "UserIdIndex",
+//       KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
+//       Projection: {
+//         ProjectionType: "ALL",
+//       },
+//       ProvisionedThroughput: {
+//         ReadCapacityUnits: 5,
+//         WriteCapacityUnits: 5,
+//       },
+//     },
+//   ],
+// };
+
+// // Example: Create table
+// dynamodb.createTable(params, (err, data) => {
+//   if (err) console.error("Error creating Licenses table:", err);
+//   else console.log("Licenses table created:", data);
+// });
