@@ -50,7 +50,7 @@ const updateSavedRoute = asyncHandler(async (req, res) => {
     throw new Error("Unauthorized: No user information found");
   }
 
-  const { userId, routeId } = req.params;
+  const { routeId } = req.params;
   const {
     routeName,
     startLocation,
@@ -64,8 +64,16 @@ const updateSavedRoute = asyncHandler(async (req, res) => {
   const updateParams = {
     TableName: SAVED_ROUTE_TABLE,
     Key: { routeId },
-    UpdateExpression:
-      "set routeName = :r, startLocation = :s, endLocation = :e, waypoints = :w, notes = :n, preferredVehicleType = :p, shareRide = :sh",
+    UpdateExpression: `
+      set 
+        routeName = :r, 
+        startLocation = :s, 
+        endLocation = :e, 
+        waypoints = :w, 
+        notes = :n, 
+        preferredVehicleType = :p, 
+        shareRide = :sh
+    `,
     ExpressionAttributeValues: {
       ":r": routeName,
       ":s": startLocation,
@@ -73,16 +81,17 @@ const updateSavedRoute = asyncHandler(async (req, res) => {
       ":w": waypoints || [],
       ":n": notes || "",
       ":p": preferredVehicleType || "Standard",
-      ":sh": shareRide || false,
+      ":sh": shareRide ?? false,
     },
     ReturnValues: "ALL_NEW",
   };
 
   const result = await dynamodb.update(updateParams).promise();
 
-  res
-    .status(200)
-    .json({ message: "Saved route updated", route: result.Attributes });
+  res.status(200).json({
+    message: "Saved route updated",
+    route: result.Attributes,
+  });
 });
 
 /* -------------------- Delete Saved Route -------------------- */

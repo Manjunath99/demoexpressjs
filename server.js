@@ -10,12 +10,13 @@ const subscriptionRoutes = require("./routes/subscriptionRoutes");
 const communicationRoutes = require("./routes/communicationRoutes");
 const complianceRoutes = require("./routes/complianceRoutes");
 const paymentMethodRoutes = require("./routes/paymentMethodRoutes");
+const savedRoutesRoute = require("./routes/savedRouteRoutes");
 const { errorHandler } = require("./middleware/errorHandler");
-const olaMapsRoutes = require("./routes/olaMapsRoutes");
+//const olaMapsRoutes = require("./routes/olaMapsRoutes");
 
 const connectDB = require("./config/dbConnection");
 
-connectDB();
+//connectDB();
 app.use(express.json());
 app.use("/api/contacts", conatctRouter);
 app.use("/api/users", userRouter);
@@ -26,7 +27,8 @@ app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/communications", communicationRoutes);
 app.use("/api/compliances", complianceRoutes);
 app.use("/api/paymentMethods", paymentMethodRoutes);
-app.use("/api/olamaps", olaMapsRoutes);
+app.use("/api/savedRoutes", savedRoutesRoute);
+//app.use("/api/olamaps", olaMapsRoutes);
 
 app.use(errorHandler);
 

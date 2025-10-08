@@ -68,3 +68,36 @@
 //   if (err) console.error("Error creating table:", err);
 //   else console.log("Table created:", data);
 // });
+
+// const params = {
+//   TableName: "SavedRoute",
+//   AttributeDefinitions: [
+//     { AttributeName: "routeId", AttributeType: "S" },
+//     { AttributeName: "userId", AttributeType: "S" }, // for GSI
+//   ],
+//   KeySchema: [
+//     { AttributeName: "routeId", KeyType: "HASH" }, // Primary key
+//   ],
+//   ProvisionedThroughput: {
+//     ReadCapacityUnits: 5,
+//     WriteCapacityUnits: 5,
+//   },
+//   GlobalSecondaryIndexes: [
+//     {
+//       IndexName: "UserIdIndex",
+//       KeySchema: [{ AttributeName: "userId", KeyType: "HASH" }],
+//       Projection: {
+//         ProjectionType: "ALL",
+//       },
+//       ProvisionedThroughput: {
+//         ReadCapacityUnits: 5,
+//         WriteCapacityUnits: 5,
+//       },
+//     },
+//   ],
+// };
+
+// dynamodb.createTable(params, (err, data) => {
+//   if (err) console.error("Error creating SavedRoute table:", err);
+//   else console.log("SavedRoute table created:", data);
+// });
