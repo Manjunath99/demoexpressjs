@@ -11,6 +11,7 @@ const communicationRoutes = require("./routes/communicationRoutes");
 const complianceRoutes = require("./routes/complianceRoutes");
 const paymentMethodRoutes = require("./routes/paymentMethodRoutes");
 const savedRoutesRoute = require("./routes/savedRouteRoutes");
+const rideHistoryRoute = require("./routes/rideHistoryRoutes");
 const { errorHandler } = require("./middleware/errorHandler");
 //const olaMapsRoutes = require("./routes/olaMapsRoutes");
 
@@ -28,6 +29,7 @@ app.use("/api/communications", communicationRoutes);
 app.use("/api/compliances", complianceRoutes);
 app.use("/api/paymentMethods", paymentMethodRoutes);
 app.use("/api/savedRoutes", savedRoutesRoute);
+app.use("/api/rideHistory", rideHistoryRoute);
 //app.use("/api/olamaps", olaMapsRoutes);
 
 app.use(errorHandler);

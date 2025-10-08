@@ -7,6 +7,10 @@ const RIDE_TABLE = "RideHistory";
 
 /* -------------------- Add Ride -------------------- */
 const addRide = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const rideItem = createRideHistory(req.body);
 
   await dynamodb
@@ -21,6 +25,10 @@ const addRide = asyncHandler(async (req, res) => {
 
 /* -------------------- Get Ride by rideId -------------------- */
 const getRideById = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { rideId } = req.params;
 
   const result = await dynamodb
@@ -35,6 +43,10 @@ const getRideById = asyncHandler(async (req, res) => {
 
 /* -------------------- Get all rides for a user -------------------- */
 const getRidesByUser = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { userId } = req.params;
 
   // Scan for rides where user is either driver or passenger
@@ -51,32 +63,57 @@ const getRidesByUser = asyncHandler(async (req, res) => {
 
 /* -------------------- Update Ride -------------------- */
 const updateRide = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
+
   const { rideId } = req.params;
   const updateData = req.body;
 
-  const updateExpression = [];
-  const expressionValues = {};
-
-  for (const key in updateData) {
-    updateExpression.push(`${key} = :${key}`);
-    expressionValues[`:${key}`] = updateData[key];
+  if (!rideId) {
+    res.status(400);
+    throw new Error("Ride ID is required");
   }
 
-  const result = await dynamodb
-    .update({
-      TableName: RIDE_TABLE,
-      Key: { rideId },
-      UpdateExpression: "set " + updateExpression.join(", "),
-      ExpressionAttributeValues: expressionValues,
-      ReturnValues: "ALL_NEW",
-    })
-    .promise();
+  if (!updateData || Object.keys(updateData).length === 0) {
+    res.status(400);
+    throw new Error("No update data provided");
+  }
 
-  res.status(200).json({ message: "Ride updated", ride: result.Attributes });
+  const updateExpression = [];
+  const expressionValues = {};
+  const expressionNames = {};
+
+  for (const key in updateData) {
+    updateExpression.push(`#${key} = :${key}`);
+    expressionValues[`:${key}`] = updateData[key];
+    expressionNames[`#${key}`] = key;
+  }
+
+  const params = {
+    TableName: RIDE_TABLE,
+    Key: { rideId },
+    UpdateExpression: "SET " + updateExpression.join(", "),
+    ExpressionAttributeValues: expressionValues,
+    ExpressionAttributeNames: expressionNames,
+    ReturnValues: "ALL_NEW",
+  };
+
+  const result = await dynamodb.update(params).promise();
+
+  res.status(200).json({
+    message: "Ride updated successfully",
+    ride: result.Attributes,
+  });
 });
 
 /* -------------------- Delete Ride -------------------- */
 const deleteRide = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user.userId) {
+    res.status(401);
+    throw new Error("Unauthorized: No user information found");
+  }
   const { rideId } = req.params;
 
   await dynamodb

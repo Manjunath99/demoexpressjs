@@ -101,3 +101,48 @@
 //   if (err) console.error("Error creating SavedRoute table:", err);
 //   else console.log("SavedRoute table created:", data);
 // });
+
+// const params = {
+//   TableName: "RideHistory",
+//   AttributeDefinitions: [
+//     { AttributeName: "rideId", AttributeType: "S" },
+//     { AttributeName: "driverId", AttributeType: "S" }, // For GSI 1
+//     { AttributeName: "passengerId", AttributeType: "S" }, // For GSI 2
+//   ],
+//   KeySchema: [
+//     { AttributeName: "rideId", KeyType: "HASH" }, // Primary key
+//   ],
+//   ProvisionedThroughput: {
+//     ReadCapacityUnits: 5,
+//     WriteCapacityUnits: 5,
+//   },
+//   GlobalSecondaryIndexes: [
+//     {
+//       IndexName: "DriverIdIndex",
+//       KeySchema: [{ AttributeName: "driverId", KeyType: "HASH" }],
+//       Projection: {
+//         ProjectionType: "ALL",
+//       },
+//       ProvisionedThroughput: {
+//         ReadCapacityUnits: 5,
+//         WriteCapacityUnits: 5,
+//       },
+//     },
+//     {
+//       IndexName: "PassengerIdIndex",
+//       KeySchema: [{ AttributeName: "passengerId", KeyType: "HASH" }],
+//       Projection: {
+//         ProjectionType: "ALL",
+//       },
+//       ProvisionedThroughput: {
+//         ReadCapacityUnits: 5,
+//         WriteCapacityUnits: 5,
+//       },
+//     },
+//   ],
+// };
+
+// dynamodb.createTable(params, (err, data) => {
+//   if (err) console.error("Error creating Ride table:", err);
+//   else console.log("Ride table created:", data);
+// });
