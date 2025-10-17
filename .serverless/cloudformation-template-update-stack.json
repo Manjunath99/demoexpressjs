@@ -2,10 +2,10 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application",
   "Resources": {
-    "ContactsLogGroup": {
+    "UsersLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/demoexpressjs-lambda-dev-contacts"
+        "LogGroupName": "/aws/lambda/demoexpressjs-lambda-dev-users"
       }
     },
     "IamRoleLambdaExecution": {
@@ -86,16 +86,16 @@
         }
       }
     },
-    "ContactsLambdaFunction": {
+    "UsersLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-ap-south-1-7f2be01f-ba6e",
-          "S3Key": "serverless/demoexpressjs-lambda/dev/1759342213651-2025-10-01T18:10:13.651Z/contacts.zip"
+          "S3Key": "serverless/demoexpressjs-lambda/dev/1760390547544-2025-10-13T21:22:27.544Z/users.zip"
         },
-        "Handler": "handlers/contactHandler.handler",
+        "Handler": "handlers/userHandler.handler",
         "Runtime": "nodejs18.x",
-        "FunctionName": "demoexpressjs-lambda-dev-contacts",
+        "FunctionName": "demoexpressjs-lambda-dev-users",
         "MemorySize": 256,
         "Timeout": 10,
         "Role": {
@@ -106,17 +106,17 @@
         }
       },
       "DependsOn": [
-        "ContactsLogGroup"
+        "UsersLogGroup"
       ]
     },
-    "ContactsLambdaVersionuoRPwkvZ2J0lMeycxMp5Vco49ozk9AwTdLb0sV4D4": {
+    "UsersLambdaVersionIQSafO2BtlADFozLFzuUx8mOOqG4rlglyRWRvgu6w": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "ContactsLambdaFunction"
+          "Ref": "UsersLambdaFunction"
         },
-        "CodeSha256": "QmOE9lj8eRuxnZ4wLOvZIKgEIxbmGhSHmKxuZsoXJnA="
+        "CodeSha256": "XxXMACZdoB1AbLAb9iHMpa3vp/POSZM0iI+bMW+5y/0="
       }
     },
     "ApiGatewayRestApi": {
@@ -146,23 +146,23 @@
         }
       }
     },
-    "ApiGatewayResourceApiContacts": {
+    "ApiGatewayResourceApiAuth": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
           "Ref": "ApiGatewayResourceApi"
         },
-        "PathPart": "contacts",
+        "PathPart": "auth",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayResourceApiContactsProxyVar": {
+    "ApiGatewayResourceApiAuthProxyVar": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
-          "Ref": "ApiGatewayResourceApiContacts"
+          "Ref": "ApiGatewayResourceApiAuth"
         },
         "PathPart": "{proxy+}",
         "RestApiId": {
@@ -170,7 +170,7 @@
         }
       }
     },
-    "ApiGatewayMethodApiContactsProxyVarOptions": {
+    "ApiGatewayMethodApiAuthProxyVarOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -208,14 +208,14 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceApiContactsProxyVar"
+          "Ref": "ApiGatewayResourceApiAuthProxyVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodApiContactsOptions": {
+    "ApiGatewayMethodApiAuthOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -253,20 +253,20 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceApiContacts"
+          "Ref": "ApiGatewayResourceApiAuth"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodApiContactsProxyVarAny": {
+    "ApiGatewayMethodApiAuthProxyVarAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "ANY",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceApiContactsProxyVar"
+          "Ref": "ApiGatewayResourceApiAuthProxyVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -291,7 +291,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "ContactsLambdaFunction",
+                    "UsersLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -303,16 +303,16 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "ContactsLambdaPermissionApiGateway"
+        "UsersLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodApiContactsAny": {
+    "ApiGatewayMethodApiAuthAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "ANY",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceApiContacts"
+          "Ref": "ApiGatewayResourceApiAuth"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -337,7 +337,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "ContactsLambdaFunction",
+                    "UsersLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -349,10 +349,10 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "ContactsLambdaPermissionApiGateway"
+        "UsersLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1759342205432": {
+    "ApiGatewayDeployment1760390538341": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -361,18 +361,18 @@
         "StageName": "dev"
       },
       "DependsOn": [
-        "ApiGatewayMethodApiContactsProxyVarOptions",
-        "ApiGatewayMethodApiContactsOptions",
-        "ApiGatewayMethodApiContactsProxyVarAny",
-        "ApiGatewayMethodApiContactsAny"
+        "ApiGatewayMethodApiAuthProxyVarOptions",
+        "ApiGatewayMethodApiAuthOptions",
+        "ApiGatewayMethodApiAuthProxyVarAny",
+        "ApiGatewayMethodApiAuthAny"
       ]
     },
-    "ContactsLambdaPermissionApiGateway": {
+    "UsersLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "ContactsLambdaFunction",
+            "UsersLambdaFunction",
             "Arn"
           ]
         },
@@ -412,13 +412,13 @@
         "Name": "sls-demoexpressjs-lambda-dev-ServerlessDeploymentBucketName"
       }
     },
-    "ContactsLambdaFunctionQualifiedArn": {
+    "UsersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ContactsLambdaVersionuoRPwkvZ2J0lMeycxMp5Vco49ozk9AwTdLb0sV4D4"
+        "Ref": "UsersLambdaVersionIQSafO2BtlADFozLFzuUx8mOOqG4rlglyRWRvgu6w"
       },
       "Export": {
-        "Name": "sls-demoexpressjs-lambda-dev-ContactsLambdaFunctionQualifiedArn"
+        "Name": "sls-demoexpressjs-lambda-dev-UsersLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
