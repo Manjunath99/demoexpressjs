@@ -53,6 +53,30 @@ functions:
           method: ANY
           cors: true
 
+  emergencyContact:
+    handler: handlers/emergencyContactHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/emergencyContactHandler.js
+        - controllers/emergencyContactController.js
+        - models/emergencyContactModel.js
+        - routes/emergencyContactRoute.js
+      exclude:
+        - controllers/**
+        - models/**
+        - routes/**
+        - scripts/**
+    events:
+      - http:
+          path: /api/emergencyContacts/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: /api/emergencyContacts
+          method: ANY
+          cors: true
+
 package:
   individually: true
   exclude:
