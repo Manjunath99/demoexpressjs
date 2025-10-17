@@ -17,21 +17,23 @@ const { errorHandler } = require("./middleware/errorHandler");
 //const olaMapsRoutes = require("./routes/olaMapsRoutes");
 
 const connectDB = require("./config/dbConnection");
+const ROUTES = require("./constants/routeName");
 
 //connectDB();
 app.use(express.json());
-app.use("/api/contacts", conatctRouter);
-app.use("/api/users", userRouter);
-app.use("/api/vehicles", vehicleRouter);
-app.use("/api/reviewAndRatings", ratingReviewRouter);
-app.use("/api/emergencyContacts", emergencyContactRouter);
-app.use("/api/subscriptions", subscriptionRoutes);
-app.use("/api/communications", communicationRoutes);
-app.use("/api/compliances", complianceRoutes);
-app.use("/api/paymentMethods", paymentMethodRoutes);
-app.use("/api/savedRoutes", savedRoutesRoute);
-app.use("/api/rideHistory", rideHistoryRoute);
-app.use("/api/licenses", licenseRoute);
+
+app.use(ROUTES.CONTACTS, conatctRouter);
+app.use(ROUTES.USERS, userRouter);
+app.use(ROUTES.VEHICLES, vehicleRouter);
+app.use(ROUTES.REVIEWS, ratingReviewRouter);
+app.use(ROUTES.EMERGENCY_CONTACTS, emergencyContactRouter);
+app.use(ROUTES.SUBSCRIPTIONS, subscriptionRoutes);
+app.use(ROUTES.COMMUNICATIONS, communicationRoutes);
+app.use(ROUTES.COMPLIANCES, complianceRoutes);
+app.use(ROUTES.PAYMENT_METHODS, paymentMethodRoutes);
+app.use(ROUTES.SAVED_ROUTES, savedRoutesRoute);
+app.use(ROUTES.RIDE_HISTORY, rideHistoryRoute);
+app.use(ROUTES.LICENSES, licenseRoute);
 //app.use("/api/olamaps", olaMapsRoutes);
 
 app.use(errorHandler);

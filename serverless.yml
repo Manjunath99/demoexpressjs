@@ -6,29 +6,24 @@ provider:
   region: ap-south-1
   memorySize: 256
   timeout: 10
+  environment:
+    JWT_SECRET: manju123
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:Scan
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:ap-south-1:981625498466:table/*
+            - arn:aws:dynamodb:ap-south-1:981625498466:table/*/index/*
 
 functions:
-  # contacts:
-  #   handler: handlers/contactHandler.handler
-  #   package:
-  #     individually: true
-  #     include:
-  #       - handlers/contactHandler.js
-  #       - controllers/contactController.js
-  #       - models/contactModel.js
-  #     exclude:
-  #       - controllers/**
-  #       - models/**
-  #   events:
-  #     - http:
-  #         path: api/contacts/{proxy+}
-  #         method: ANY
-  #         cors: true
-  #     - http:
-  #         path: api/contacts
-  #         method: ANY
-  #         cors: true
-
   users:
     handler: handlers/userHandler.handler
     package:
@@ -74,6 +69,29 @@ functions:
           cors: true
       - http:
           path: /api/emergencyContacts
+          method: ANY
+          cors: true
+  vehicle:
+    handler: handlers/vehicleHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/vehicleHandler.js
+        - controllers/vechileController.js
+        - models/vehicleModel.js
+        - routes/vehicleRouter.js
+      exclude:
+        - controllers/**
+        - models/**
+        - routes/**
+        - scripts/**
+    events:
+      - http:
+          path: /api/vehicles/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: /api/vehicles
           method: ANY
           cors: true
 
