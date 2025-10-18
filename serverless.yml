@@ -140,6 +140,29 @@ functions:
           path: /api/licenses
           method: ANY
           cors: true
+  rideHistory:
+    handler: handlers/rideHistoryHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/rideHistoryHandler.js
+        - controllers/rideHistoryController.js
+        - models/rideHistoryModel.js
+        - routes/rideHistoryRoutes.js
+      exclude:
+        - controllers/**
+        - models/**
+        - routes/**
+        - scripts/**
+    events:
+      - http:
+          path: api/rideHistory/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: api/rideHistory
+          method: ANY
+          cors: true
 
 package:
   individually: true

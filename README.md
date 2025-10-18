@@ -12,4 +12,5 @@ deployed and done things
 2.emergencyContactRouter
 4.saved route api done
 5.vehicle route done
+6.ride history done
 7.license history done
