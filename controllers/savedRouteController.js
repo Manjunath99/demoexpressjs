@@ -51,38 +51,21 @@ const updateSavedRoute = asyncHandler(async (req, res) => {
   }
 
   const { routeId } = req.params;
-  const {
-    routeName,
-    startLocation,
-    endLocation,
-    waypoints,
-    notes,
-    preferredVehicleType,
-    shareRide,
-  } = req.body;
+  const body = req.body;
+
+  const updateExp = [];
+  const expAttrValues = {};
+
+  Object.entries(body).forEach(([key, value]) => {
+    updateExp.push(`${key} = :${key}`);
+    expAttrValues[`:${key}`] = value;
+  });
 
   const updateParams = {
     TableName: SAVED_ROUTE_TABLE,
     Key: { routeId },
-    UpdateExpression: `
-      set 
-        routeName = :r, 
-        startLocation = :s, 
-        endLocation = :e, 
-        waypoints = :w, 
-        notes = :n, 
-        preferredVehicleType = :p, 
-        shareRide = :sh
-    `,
-    ExpressionAttributeValues: {
-      ":r": routeName,
-      ":s": startLocation,
-      ":e": endLocation,
-      ":w": waypoints || [],
-      ":n": notes || "",
-      ":p": preferredVehicleType || "Standard",
-      ":sh": shareRide ?? false,
-    },
+    UpdateExpression: `set ${updateExp.join(", ")}`,
+    ExpressionAttributeValues: expAttrValues,
     ReturnValues: "ALL_NEW",
   };
 

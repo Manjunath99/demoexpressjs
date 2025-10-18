@@ -94,6 +94,29 @@ functions:
           path: /api/vehicles
           method: ANY
           cors: true
+  savedRoute:
+    handler: handlers/savedRouteHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/savedRouteHandler.js
+        - controllers/savedRouteController.js
+        - models/savedRouteModel.js
+        - routes/savedRouteRoutes.js
+      exclude:
+        - controllers/**
+        - models/**
+        - routes/**
+        - scripts/**
+    events:
+      - http:
+          path: /api/savedRoutes/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: /api/savedRoutes
+          method: ANY
+          cors: true
 
 package:
   individually: true
