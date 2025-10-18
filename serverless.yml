@@ -117,6 +117,29 @@ functions:
           path: /api/savedRoutes
           method: ANY
           cors: true
+  license:
+    handler: handlers/licenseHandler.handler
+    package:
+      individually: true
+      include:
+        - handlers/licenseHandler.js
+        - controllers/licenseController.js
+        - models/licenseModel.js
+        - routes/licenseRoute.js
+      exclude:
+        - controllers/**
+        - models/**
+        - routes/**
+        - scripts/**
+    events:
+      - http:
+          path: /api/licenses/{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: /api/licenses
+          method: ANY
+          cors: true
 
 package:
   individually: true
